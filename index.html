@@ -1,0 +1,724 @@
+<!DOCTYPE html>
+<html lang="zh-CN" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>青田康岁网络科技有限公司 | 数字孪生与仿真模拟专家</title>
+    <meta name="description" content="康岁科技致力于为工业、城市及复杂系统提供顶尖的数字孪生解决方案与仿真模拟技术。">
+    <meta name="keywords" content="数字孪生, 仿真模拟, 智慧城市, 工业互联网, 康岁科技, 青田网络科技">
+    
+    <!-- Tailwind CSS (CDN for instant rendering) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700;900&family=Rajdhani:wght@500;700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Custom Config for Tailwind -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        ks: {
+                            dark: '#0B0F19',
+                            card: '#151B2B',
+                            accent: '#00F0FF', // Cyber Cyan
+                            primary: '#3B82F6', // Royal Blue
+                            purple: '#8B5CF6',
+                            text: '#E2E8F0'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['"Noto Sans SC"', 'sans-serif'],
+                        tech: ['"Rajdhani"', 'sans-serif']
+                    },
+                    backgroundImage: {
+                        'grid-pattern': "linear-gradient(to right, #1f2937 1px, transparent 1px), linear-gradient(to bottom, #1f2937 1px, transparent 1px)",
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Custom Utilities */
+        body {
+            background-color: #0B0F19;
+            color: #E2E8F0;
+            overflow-x: hidden;
+        }
+        
+        .glass-nav {
+            background: rgba(11, 15, 25, 0.8);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .tech-gradient-text {
+            background: linear-gradient(135deg, #00F0FF 0%, #3B82F6 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .card-hoverable {
+            transition: all 0.3s ease;
+        }
+        .card-hoverable:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px -10px rgba(0, 240, 255, 0.2);
+            border-color: rgba(0, 240, 255, 0.3);
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0B0F19;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #1f2937;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #3B82F6;
+        }
+
+        /* Animations */
+        .fade-in-up {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+        .fade-in-up.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .grid-bg {
+            background-size: 40px 40px;
+            mask-image: linear-gradient(to bottom, transparent, 10%, black, 90%, transparent);
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- 1. Navigation Bar -->
+    <nav class="fixed w-full z-50 glass-nav transition-all duration-300" id="navbar">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <div class="flex-shrink-0 flex items-center gap-2 cursor-pointer">
+                    <i class="fa-solid fa-cube text-ks-accent text-3xl"></i>
+                    <div class="flex flex-col">
+                        <span class="font-bold text-xl tracking-wider text-white">KANGSUI TECH</span>
+                        <span class="text-[10px] text-gray-400 tracking-[0.2em] uppercase">康岁科技</span>
+                    </div>
+                </div>
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-8 font-medium">
+                        <a href="#home" class="text-white hover:text-ks-accent transition-colors px-3 py-2 rounded-md text-sm">首页</a>
+                        <a href="#solutions" class="text-gray-300 hover:text-ks-accent transition-colors px-3 py-2 rounded-md text-sm">解决方案</a>
+                        <a href="#technology" class="text-gray-300 hover:text-ks-accent transition-colors px-3 py-2 rounded-md text-sm">核心技术</a>
+                        <a href="#cases" class="text-gray-300 hover:text-ks-accent transition-colors px-3 py-2 rounded-md text-sm">成功案例</a>
+                        <a href="#about" class="text-gray-300 hover:text-ks-accent transition-colors px-3 py-2 rounded-md text-sm">关于我们</a>
+                        <a href="#contact" class="bg-ks-accent/10 border border-ks-accent text-ks-accent hover:bg-ks-accent hover:text-black transition-all px-5 py-2 rounded-full text-sm">联系咨询</a>
+                    </div>
+                </div>
+                <div class="-mr-2 flex md:hidden">
+                    <button onclick="document.getElementById('mobile-menu').classList.toggle('hidden')" class="text-gray-300 hover:text-white p-2">
+                        <i class="fa-solid fa-bars text-2xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <!-- Mobile Menu -->
+        <div class="hidden md:hidden bg-ks-card border-b border-gray-800" id="mobile-menu">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                <a href="#home" class="text-white block px-3 py-2 rounded-md text-base font-medium">首页</a>
+                <a href="#solutions" class="text-gray-300 block px-3 py-2 rounded-md text-base font-medium">解决方案</a>
+                <a href="#contact" class="text-ks-accent block px-3 py-2 rounded-md text-base font-medium">联系我们</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 2. Hero Section -->
+    <section id="home" class="relative min-h-screen flex items-center justify-center pt-20 overflow-hidden">
+        <!-- Background Image with Overlay -->
+        <div class="absolute inset-0 z-0">
+            <img src="https://picsum.photos/id/203/1920/1080" alt="Technology Background" class="w-full h-full object-cover opacity-30 grayscale mix-blend-luminosity">
+            <div class="absolute inset-0 bg-gradient-to-t from-ks-dark via-ks-dark/80 to-transparent"></div>
+            <div class="absolute inset-0 grid-bg opacity-20"></div>
+        </div>
+
+        <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <div class="inline-block px-4 py-1 mb-6 border border-ks-accent/30 rounded-full bg-ks-accent/5 backdrop-blur-sm fade-in-up">
+                <span class="text-ks-accent text-xs font-bold tracking-widest uppercase">Digital Twin Revolution</span>
+            </div>
+            <h1 class="text-5xl md:text-7xl font-black mb-6 leading-tight fade-in-up" style="animation-delay: 0.1s;">
+                构建物理世界的<br>
+                <span class="tech-gradient-text">数字镜像</span>
+            </h1>
+            <p class="mt-4 max-w-2xl mx-auto text-xl text-gray-400 fade-in-up" style="animation-delay: 0.2s;">
+                康岁科技利用高保真仿真模拟与实时数据融合技术，助您在数字空间中预测未来，优化现实决策。
+            </p>
+            <div class="mt-10 flex flex-col sm:flex-row justify-center gap-4 fade-in-up" style="animation-delay: 0.3s;">
+                <a href="#solutions" class="px-8 py-4 bg-ks-accent text-black font-bold rounded hover:bg-white transition-colors shadow-[0_0_20px_rgba(0,240,255,0.3)]">
+                    探索解决方案
+                </a>
+                <a href="#technology" class="px-8 py-4 border border-gray-600 hover:border-white text-white font-medium rounded transition-colors backdrop-blur-sm">
+                    了解核心技术
+                </a>
+            </div>
+        </div>
+        
+        <!-- Scroll Indicator -->
+        <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 animate-bounce text-gray-500">
+            <i class="fa-solid fa-chevron-down"></i>
+        </div>
+    </section>
+
+    <!-- 3. Data Ticker / Key Metrics -->
+    <div class="border-y border-gray-800 bg-ks-card/50 backdrop-blur-sm relative z-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center divide-x divide-gray-800">
+                <div class="fade-in-up">
+                    <p class="text-4xl font-bold text-white font-tech">500<span class="text-ks-accent">+</span></p>
+                    <p class="text-sm text-gray-500 mt-1">仿真模型资产</p>
+                </div>
+                <div class="fade-in-up" style="animation-delay: 0.1s;">
+                    <p class="text-4xl font-bold text-white font-tech">99<span class="text-ks-accent">%</span></p>
+                    <p class="text-sm text-gray-500 mt-1">模拟还原度</p>
+                </div>
+                <div class="fade-in-up" style="animation-delay: 0.2s;">
+                    <p class="text-4xl font-bold text-white font-tech">24<span class="text-ks-accent">/7</span></p>
+                    <p class="text-sm text-gray-500 mt-1">实时数据监控</p>
+                </div>
+                <div class="fade-in-up" style="animation-delay: 0.3s;">
+                    <p class="text-4xl font-bold text-white font-tech">10<span class="text-ks-accent">+</span></p>
+                    <p class="text-sm text-gray-500 mt-1">行业覆盖</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 4. Intro Statement -->
+    <section class="py-20 bg-ks-dark" id="about">
+        <div class="max-w-4xl mx-auto px-4 text-center">
+            <h2 class="text-3xl md:text-4xl font-bold mb-8">链接<span class="text-ks-primary">物理实体</span>与<span class="text-ks-accent">数字智能</span>的桥梁</h2>
+            <p class="text-lg text-gray-400 leading-relaxed">
+                青田康岁网络科技有限公司立足于浙江丽水，是一家专注于工业4.0时代前沿技术的科技企业。我们不仅仅是软件开发者，更是复杂系统的解构者。通过集成物联网(IoT)、大数据分析与三维可视化引擎，我们为企业提供全生命周期的数字孪生服务，从设计、生产到运维，实现全流程的降本增效。
+            </p>
+        </div>
+    </section>
+
+    <!-- 5. Core Services (Grid) -->
+    <section class="py-20 bg-ks-card relative overflow-hidden">
+        <!-- Abstract BG Elements -->
+        <div class="absolute top-0 right-0 w-1/3 h-full bg-gradient-to-l from-ks-primary/5 to-transparent"></div>
+        
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="text-center mb-16">
+                <span class="text-ks-accent font-bold tracking-wider uppercase text-sm">我们的专长</span>
+                <h2 class="text-3xl font-bold text-white mt-2">四大核心服务支柱</h2>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- Card 1 -->
+                <div class="p-8 border border-gray-800 bg-ks-dark/50 hover:bg-ks-dark transition-all rounded-xl group card-hoverable fade-in-up">
+                    <div class="w-14 h-14 bg-blue-900/30 rounded-lg flex items-center justify-center mb-6 group-hover:bg-ks-primary transition-colors">
+                        <i class="fa-solid fa-cube text-2xl text-blue-400 group-hover:text-white"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-3">三维高精建模</h3>
+                    <p class="text-gray-400 text-sm">基于倾斜摄影与激光点云技术，1:1还原工厂、园区及设备的几何细节。</p>
+                </div>
+
+                <!-- Card 2 -->
+                <div class="p-8 border border-gray-800 bg-ks-dark/50 hover:bg-ks-dark transition-all rounded-xl group card-hoverable fade-in-up" style="animation-delay: 0.1s;">
+                    <div class="w-14 h-14 bg-cyan-900/30 rounded-lg flex items-center justify-center mb-6 group-hover:bg-ks-accent transition-colors">
+                        <i class="fa-solid fa-network-wired text-2xl text-cyan-400 group-hover:text-black"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-3">IoT 数据融合</h3>
+                    <p class="text-gray-400 text-sm">打通SCADA、MES、PLC等多源异构数据，实现毫秒级数据上云与可视化映射。</p>
+                </div>
+
+                <!-- Card 3 -->
+                <div class="p-8 border border-gray-800 bg-ks-dark/50 hover:bg-ks-dark transition-all rounded-xl group card-hoverable fade-in-up" style="animation-delay: 0.2s;">
+                    <div class="w-14 h-14 bg-purple-900/30 rounded-lg flex items-center justify-center mb-6 group-hover:bg-ks-purple transition-colors">
+                        <i class="fa-solid fa-microchip text-2xl text-purple-400 group-hover:text-white"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-3">仿真算法推演</h3>
+                    <p class="text-gray-400 text-sm">内置流体力学、结构力学及物流仿真算法，在虚拟空间预演生产瓶颈与故障。</p>
+                </div>
+
+                <!-- Card 4 -->
+                <div class="p-8 border border-gray-800 bg-ks-dark/50 hover:bg-ks-dark transition-all rounded-xl group card-hoverable fade-in-up" style="animation-delay: 0.3s;">
+                    <div class="w-14 h-14 bg-green-900/30 rounded-lg flex items-center justify-center mb-6 group-hover:bg-green-500 transition-colors">
+                        <i class="fa-solid fa-vr-cardboard text-2xl text-green-400 group-hover:text-white"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-3">XR 交互体验</h3>
+                    <p class="text-gray-400 text-sm">支持VR/AR/MR多终端接入，为远程巡检、培训及展示提供沉浸式交互手段。</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 6. Technology Stack (Marquee/Logos) -->
+    <section class="py-10 border-y border-gray-800 bg-black overflow-hidden" id="technology">
+        <div class="text-center mb-8">
+            <span class="text-gray-500 text-sm uppercase tracking-widest">Powered By Technology</span>
+        </div>
+        <div class="flex justify-center flex-wrap gap-8 md:gap-16 opacity-60 grayscale hover:grayscale-0 transition-all duration-500">
+            <!-- Simulated Tech Logos with Icons/Text -->
+            <div class="flex items-center gap-2 text-xl font-bold"><i class="fa-brands fa-unity text-white"></i> Unity 3D</div>
+            <div class="flex items-center gap-2 text-xl font-bold"><i class="fa-solid fa-gamepad text-blue-500"></i> Unreal Engine 5</div>
+            <div class="flex items-center gap-2 text-xl font-bold"><i class="fa-brands fa-aws text-orange-400"></i> Cloud Computing</div>
+            <div class="flex items-center gap-2 text-xl font-bold"><i class="fa-brands fa-python text-yellow-300"></i> AI Analysis</div>
+            <div class="flex items-center gap-2 text-xl font-bold"><i class="fa-solid fa-database text-green-400"></i> Big Data</div>
+        </div>
+    </section>
+
+    <!-- 7. Feature Highlight: Real-time Monitor -->
+    <section class="py-24 bg-ks-dark overflow-hidden">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row items-center gap-12">
+                <div class="w-full md:w-1/2 fade-in-up">
+                    <div class="relative rounded-2xl overflow-hidden shadow-2xl shadow-ks-primary/20 border border-gray-700">
+                        <!-- Using a tech dashboard image -->
+                        <img src="https://picsum.photos/id/4/800/600" alt="Dashboard Interface" class="w-full h-auto hover:scale-105 transition-transform duration-700">
+                        <div class="absolute inset-0 bg-gradient-to-tr from-ks-dark/80 via-transparent to-transparent pointer-events-none"></div>
+                        <!-- Decorative UI Element -->
+                        <div class="absolute bottom-4 left-4 bg-black/70 backdrop-blur border border-green-500/50 p-3 rounded text-xs text-green-400 font-mono">
+                            <div class="flex items-center gap-2">
+                                <span class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
+                                SYSTEM ONLINE
+                            </div>
+                            <div class="mt-1">LATENCY: 12ms</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="w-full md:w-1/2 fade-in-up" style="animation-delay: 0.2s;">
+                    <h3 class="text-ks-primary font-bold mb-2">实时感知</h3>
+                    <h2 class="text-3xl md:text-4xl font-bold text-white mb-6">全景驾驶舱，<br>决策尽在掌握</h2>
+                    <p class="text-gray-400 mb-6">
+                        摒弃传统的二维报表，我们将海量运营数据映射到三维场景中。管理者可以像玩游戏一样漫游在工厂或城市中，点击设备即可查看实时状态、历史报警及维修记录。
+                    </p>
+                    <ul class="space-y-3 text-gray-300">
+                        <li class="flex items-center gap-3"><i class="fa-solid fa-check text-ks-accent"></i> 毫秒级数据低延迟传输</li>
+                        <li class="flex items-center gap-3"><i class="fa-solid fa-check text-ks-accent"></i> 异常情况自动定位与报警</li>
+                        <li class="flex items-center gap-3"><i class="fa-solid fa-check text-ks-accent"></i> 多终端协同指挥调度</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 8. Feature Highlight: Simulation (Reversed) -->
+    <section class="py-24 bg-ks-card overflow-hidden">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row-reverse items-center gap-12">
+                <div class="w-full md:w-1/2 fade-in-up">
+                    <div class="relative rounded-2xl overflow-hidden shadow-2xl shadow-ks-purple/20 border border-gray-700">
+                        <img src="https://picsum.photos/id/60/800/600" alt="Simulation Analysis" class="w-full h-auto hover:scale-105 transition-transform duration-700">
+                    </div>
+                </div>
+                <div class="w-full md:w-1/2 fade-in-up" style="animation-delay: 0.2s;">
+                    <h3 class="text-ks-purple font-bold mb-2">预测未来</h3>
+                    <h2 class="text-3xl md:text-4xl font-bold text-white mb-6">虚拟试错，<br>现实零成本</h2>
+                    <p class="text-gray-400 mb-6">
+                        在设备投产前，通过数字孪生体进行虚拟运行测试。康岁科技的仿真引擎可以模拟极端工况、负载压力及生产瓶颈，提前优化方案，大幅降低现实中的试错成本。
+                    </p>
+                    <a href="#contact" class="text-white border-b border-ks-purple hover:text-ks-purple transition-colors pb-1 inline-flex items-center gap-2">
+                        预约演示 <i class="fa-solid fa-arrow-right text-xs"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 9. Solutions Gallery -->
+    <section class="py-20 bg-ks-dark" id="solutions">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12 fade-in-up">
+                <h2 class="text-3xl font-bold mb-4">行业解决方案</h2>
+                <p class="text-gray-400">深度赋能各行各业，推动数字化转型</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Item 1 -->
+                <div class="group relative overflow-hidden rounded-xl h-80 fade-in-up cursor-pointer">
+                    <img src="https://picsum.photos/id/195/600/800" alt="Smart City" class="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-110 grayscale group-hover:grayscale-0">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent opacity-90"></div>
+                    <div class="absolute bottom-0 left-0 p-6">
+                        <div class="text-ks-accent text-sm font-bold mb-1">智慧城市</div>
+                        <h3 class="text-2xl font-bold text-white mb-2">城市大脑 CIM 平台</h3>
+                        <p class="text-gray-400 text-sm opacity-0 group-hover:opacity-100 transition-opacity transform translate-y-4 group-hover:translate-y-0">
+                            整合GIS与BIM，实现城市交通、管网、安防的一体化可视与调度。
+                        </p>
+                    </div>
+                </div>
+                
+                <!-- Item 2 -->
+                <div class="group relative overflow-hidden rounded-xl h-80 fade-in-up cursor-pointer" style="animation-delay: 0.1s;">
+                    <img src="https://picsum.photos/id/381/600/800" alt="Smart Factory" class="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-110 grayscale group-hover:grayscale-0">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent opacity-90"></div>
+                    <div class="absolute bottom-0 left-0 p-6">
+                        <div class="text-ks-primary text-sm font-bold mb-1">智能制造</div>
+                        <h3 class="text-2xl font-bold text-white mb-2">黑灯工厂数字孪生</h3>
+                        <p class="text-gray-400 text-sm opacity-0 group-hover:opacity-100 transition-opacity transform translate-y-4 group-hover:translate-y-0">
+                            产线实时监控、OEE分析、预测性维护，助力制造业降本增效。
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Item 3 -->
+                <div class="group relative overflow-hidden rounded-xl h-80 fade-in-up cursor-pointer" style="animation-delay: 0.2s;">
+                    <img src="https://picsum.photos/id/531/600/800" alt="Smart Water" class="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-110 grayscale group-hover:grayscale-0">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent opacity-90"></div>
+                    <div class="absolute bottom-0 left-0 p-6">
+                        <div class="text-blue-400 text-sm font-bold mb-1">智慧水利</div>
+                        <h3 class="text-2xl font-bold text-white mb-2">流域仿真与防洪演练</h3>
+                        <p class="text-gray-400 text-sm opacity-0 group-hover:opacity-100 transition-opacity transform translate-y-4 group-hover:translate-y-0">
+                            结合地形数据与水文模型，模拟洪水演进，科学辅助防灾减灾决策。
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 10. Development Process Workflow -->
+    <section class="py-20 bg-ks-card">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16 fade-in-up">
+                <h2 class="text-3xl font-bold">交付流程</h2>
+                <div class="w-20 h-1 bg-ks-accent mx-auto mt-4 rounded"></div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 relative">
+                <!-- Connecting Line (Desktop) -->
+                <div class="hidden md:block absolute top-12 left-0 w-full h-0.5 bg-gray-700 -z-10"></div>
+
+                <!-- Step 1 -->
+                <div class="text-center bg-ks-card fade-in-up">
+                    <div class="w-24 h-24 bg-ks-dark border-2 border-ks-accent rounded-full flex items-center justify-center mx-auto mb-6 relative z-10">
+                        <span class="text-2xl font-bold text-white">01</span>
+                    </div>
+                    <h3 class="text-lg font-bold text-white mb-2">现场勘测 & 数据采集</h3>
+                    <p class="text-sm text-gray-400 px-4">无人机倾斜摄影、激光扫描与物联网点位梳理。</p>
+                </div>
+
+                <!-- Step 2 -->
+                <div class="text-center bg-ks-card fade-in-up" style="animation-delay: 0.1s;">
+                    <div class="w-24 h-24 bg-ks-dark border-2 border-gray-600 rounded-full flex items-center justify-center mx-auto mb-6 relative z-10">
+                        <span class="text-2xl font-bold text-gray-300">02</span>
+                    </div>
+                    <h3 class="text-lg font-bold text-white mb-2">3D建模 & 场景搭建</h3>
+                    <p class="text-sm text-gray-400 px-4">高精度模型构建，材质渲染，地形与建筑生成。</p>
+                </div>
+
+                <!-- Step 3 -->
+                <div class="text-center bg-ks-card fade-in-up" style="animation-delay: 0.2s;">
+                    <div class="w-24 h-24 bg-ks-dark border-2 border-gray-600 rounded-full flex items-center justify-center mx-auto mb-6 relative z-10">
+                        <span class="text-2xl font-bold text-gray-300">03</span>
+                    </div>
+                    <h3 class="text-lg font-bold text-white mb-2">系统集成 & 数据对接</h3>
+                    <p class="text-sm text-gray-400 px-4">API接口开发，数据库挂载，实时数据流联调。</p>
+                </div>
+
+                <!-- Step 4 -->
+                <div class="text-center bg-ks-card fade-in-up" style="animation-delay: 0.3s;">
+                    <div class="w-24 h-24 bg-ks-dark border-2 border-gray-600 rounded-full flex items-center justify-center mx-auto mb-6 relative z-10">
+                        <span class="text-2xl font-bold text-gray-300">04</span>
+                    </div>
+                    <h3 class="text-lg font-bold text-white mb-2">部署交付 & 培训</h3>
+                    <p class="text-sm text-gray-400 px-4">私有化部署或云端发布，提供操作培训与维保。</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 11. Parallax/Quote Section -->
+    <section class="py-28 relative bg-fixed bg-center bg-cover bg-no-repeat" style="background-image: url('https://picsum.photos/id/338/1920/600');">
+        <div class="absolute inset-0 bg-blue-900/80 mix-blend-multiply"></div>
+        <div class="relative z-10 max-w-4xl mx-auto px-4 text-center">
+            <i class="fa-solid fa-quote-left text-4xl text-white/30 mb-6"></i>
+            <h2 class="text-2xl md:text-4xl font-light italic text-white leading-relaxed">
+                "数字孪生不仅仅是技术的堆叠，它是企业通往未来的时空穿梭机。康岁科技致力于让每一个数据都产生价值。"
+            </h2>
+            <div class="mt-8">
+                <p class="font-bold text-white">康岁技术团队</p>
+                <p class="text-sm text-blue-200">Kangsui R&D Center</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 12. Case Study (Highlighted) -->
+    <section class="py-20 bg-ks-dark" id="cases">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between mb-12">
+                <h2 class="text-3xl font-bold">精选案例</h2>
+                <a href="#" class="text-ks-accent hover:underline text-sm">查看全部 <i class="fa-solid fa-arrow-right"></i></a>
+            </div>
+
+            <!-- Case 1: Large Layout -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-0 border border-gray-800 rounded-2xl overflow-hidden mb-10 fade-in-up">
+                <div class="bg-gray-800 relative h-64 lg:h-auto">
+                    <img src="https://picsum.photos/id/164/800/600" alt="Project Image" class="absolute inset-0 w-full h-full object-cover">
+                </div>
+                <div class="p-8 lg:p-12 bg-ks-card flex flex-col justify-center">
+                    <div class="text-xs font-bold text-ks-accent uppercase tracking-wider mb-2">智慧园区 · 浙江</div>
+                    <h3 class="text-2xl font-bold text-white mb-4">温溪高新技术产业园可视化平台</h3>
+                    <p class="text-gray-400 mb-6 text-sm leading-relaxed">
+                        为温溪镇打造的标杆性数字园区项目。实现了园区内能耗监控、人流分析、安防报警的一屏统管。通过高精度建模，还原了园区内123号楼及周边环境，助力管理效率提升40%。
+                    </p>
+                    <div class="flex gap-4">
+                        <span class="px-3 py-1 bg-gray-800 text-xs text-gray-300 rounded">UE5引擎</span>
+                        <span class="px-3 py-1 bg-gray-800 text-xs text-gray-300 rounded">数据中台</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Case 2 & 3: Smaller Layout -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="bg-ks-card border border-gray-800 rounded-xl p-6 hover:border-gray-600 transition-colors fade-in-up">
+                    <h4 class="text-xl font-bold text-white mb-2">某大型水电站仿真模拟</h4>
+                    <p class="text-gray-400 text-sm mb-4">基于水轮机组物理参数建立数字体，实时监测振动与温度，预测设备寿命。</p>
+                    <a href="#" class="text-ks-primary text-sm hover:text-white">阅读详情</a>
+                </div>
+                <div class="bg-ks-card border border-gray-800 rounded-xl p-6 hover:border-gray-600 transition-colors fade-in-up">
+                    <h4 class="text-xl font-bold text-white mb-2">物流仓储自动化孪生系统</h4>
+                    <p class="text-gray-400 text-sm mb-4">模拟AGV小车路径规划，优化仓储布局，提升分拣效率达25%。</p>
+                    <a href="#" class="text-ks-primary text-sm hover:text-white">阅读详情</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 13. Partners Grid -->
+    <section class="py-16 bg-ks-dark border-t border-gray-800">
+        <div class="max-w-7xl mx-auto px-4 text-center">
+            <h3 class="text-gray-500 text-sm mb-8">值得信赖的合作伙伴</h3>
+            <div class="grid grid-cols-2 md:grid-cols-5 gap-8 items-center opacity-50 grayscale">
+                <!-- Using generic placeholders for logos -->
+                <div class="text-xl font-bold text-white flex justify-center"><i class="fa-brands fa-microsoft text-3xl"></i></div>
+                <div class="text-xl font-bold text-white flex justify-center"><i class="fa-brands fa-google text-3xl"></i></div>
+                <div class="text-xl font-bold text-white flex justify-center"><i class="fa-brands fa-aws text-3xl"></i></div>
+                <div class="text-xl font-bold text-white flex justify-center"><i class="fa-brands fa-ibm text-3xl"></i></div>
+                <div class="text-xl font-bold text-white flex justify-center"><i class="fa-brands fa-intel text-3xl"></i></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 14. News / Insights -->
+    <section class="py-20 bg-ks-card">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-3xl font-bold mb-10 text-center">前沿资讯</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- News Item 1 -->
+                <article class="bg-ks-dark rounded-lg overflow-hidden group fade-in-up">
+                    <div class="h-48 overflow-hidden">
+                        <img src="https://picsum.photos/id/2/600/400" alt="News 1" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+                    </div>
+                    <div class="p-6">
+                        <div class="text-xs text-ks-accent mb-2">2023-10-15 • 行业动态</div>
+                        <h3 class="text-lg font-bold text-white mb-3 group-hover:text-ks-primary transition-colors">工业元宇宙：制造业的下一个风口</h3>
+                        <p class="text-gray-400 text-sm line-clamp-3">探讨数字孪生技术如何重塑传统制造业的生产流程与管理模式...</p>
+                    </div>
+                </article>
+                 <!-- News Item 2 -->
+                 <article class="bg-ks-dark rounded-lg overflow-hidden group fade-in-up" style="animation-delay: 0.1s;">
+                    <div class="h-48 overflow-hidden">
+                        <img src="https://picsum.photos/id/6/600/400" alt="News 2" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+                    </div>
+                    <div class="p-6">
+                        <div class="text-xs text-ks-accent mb-2">2023-09-22 • 公司新闻</div>
+                        <h3 class="text-lg font-bold text-white mb-3 group-hover:text-ks-primary transition-colors">康岁科技入驻青田温溪，助力本地数字经济</h3>
+                        <p class="text-gray-400 text-sm line-clamp-3">青田康岁网络科技有限公司正式落地温东大街，开启数字化服务新篇章...</p>
+                    </div>
+                </article>
+                 <!-- News Item 3 -->
+                 <article class="bg-ks-dark rounded-lg overflow-hidden group fade-in-up" style="animation-delay: 0.2s;">
+                    <div class="h-48 overflow-hidden">
+                        <img src="https://picsum.photos/id/48/600/400" alt="News 3" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+                    </div>
+                    <div class="p-6">
+                        <div class="text-xs text-ks-accent mb-2">2023-08-10 • 技术分享</div>
+                        <h3 class="text-lg font-bold text-white mb-3 group-hover:text-ks-primary transition-colors">如何利用UE5构建高保真城市模型</h3>
+                        <p class="text-gray-400 text-sm line-clamp-3">技术团队分享关于LOD层级优化与光照渲染的最佳实践...</p>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <!-- 15. CTA Section -->
+    <section class="py-20 bg-gradient-to-r from-blue-900 to-ks-dark text-center relative overflow-hidden">
+        <div class="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10"></div>
+        <div class="relative z-10 max-w-4xl mx-auto px-4">
+            <h2 class="text-3xl md:text-5xl font-bold text-white mb-6">准备好开启数字化转型之旅了吗？</h2>
+            <p class="text-xl text-blue-200 mb-10">无论是智慧工厂还是城市管理，我们为您提供最专业的数字孪生解决方案。</p>
+            <a href="#contact" class="inline-block px-10 py-4 bg-white text-blue-900 font-bold rounded-full hover:bg-ks-accent hover:text-black transition-all shadow-lg transform hover:-translate-y-1">
+                立即咨询专家
+            </a>
+        </div>
+    </section>
+
+    <!-- 16. Contact Info & Map (Visual) -->
+    <section id="contact" class="py-20 bg-ks-dark relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+                <!-- Contact Details -->
+                <div class="fade-in-up">
+                    <h2 class="text-3xl font-bold mb-2">联系我们</h2>
+                    <p class="text-gray-400 mb-8">我们期待与您探讨合作可能，欢迎随时来访或致电。</p>
+                    
+                    <div class="space-y-6">
+                        <div class="flex items-start gap-4">
+                            <div class="w-12 h-12 bg-gray-800 rounded-lg flex items-center justify-center flex-shrink-0 text-ks-accent">
+                                <i class="fa-solid fa-location-dot text-xl"></i>
+                            </div>
+                            <div>
+                                <h4 class="text-white font-bold">公司地址</h4>
+                                <p class="text-gray-400 text-sm mt-1">浙江省丽水市青田县温溪镇<br>温东大街123号3楼302</p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start gap-4">
+                            <div class="w-12 h-12 bg-gray-800 rounded-lg flex items-center justify-center flex-shrink-0 text-ks-accent">
+                                <i class="fa-solid fa-phone text-xl"></i>
+                            </div>
+                            <div>
+                                <h4 class="text-white font-bold">咨询热线</h4>
+                                <p class="text-gray-400 text-sm mt-1 font-mono">+86 131 3546 9024</p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start gap-4">
+                            <div class="w-12 h-12 bg-gray-800 rounded-lg flex items-center justify-center flex-shrink-0 text-ks-accent">
+                                <i class="fa-solid fa-envelope text-xl"></i>
+                            </div>
+                            <div>
+                                <h4 class="text-white font-bold">电子邮箱</h4>
+                                <p class="text-gray-400 text-sm mt-1 font-mono">info@kangsuitech.asia</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Simple Map Placeholder / Form -->
+                <div class="bg-ks-card p-8 rounded-2xl border border-gray-800 fade-in-up" style="animation-delay: 0.2s;">
+                    <form onsubmit="event.preventDefault(); alert('感谢您的留言，我们会尽快联系您！');">
+                        <div class="mb-4">
+                            <label class="block text-gray-400 text-sm mb-2">您的姓名</label>
+                            <input type="text" class="w-full bg-ks-dark border border-gray-700 rounded p-3 text-white focus:border-ks-accent focus:outline-none transition-colors" placeholder="请输入姓名">
+                        </div>
+                        <div class="mb-4">
+                            <label class="block text-gray-400 text-sm mb-2">联系电话</label>
+                            <input type="tel" class="w-full bg-ks-dark border border-gray-700 rounded p-3 text-white focus:border-ks-accent focus:outline-none transition-colors" placeholder="请输入手机号">
+                        </div>
+                        <div class="mb-6">
+                            <label class="block text-gray-400 text-sm mb-2">需求描述</label>
+                            <textarea class="w-full bg-ks-dark border border-gray-700 rounded p-3 text-white focus:border-ks-accent focus:outline-none transition-colors h-32" placeholder="请简述您的项目需求..."></textarea>
+                        </div>
+                        <button type="submit" class="w-full bg-ks-primary hover:bg-blue-600 text-white font-bold py-3 rounded transition-colors">
+                            发送留言
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 17. Footer -->
+    <footer class="bg-black border-t border-gray-900 pt-16 pb-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
+                <div class="col-span-1 md:col-span-2">
+                    <div class="flex items-center gap-2 mb-4">
+                        <i class="fa-solid fa-cube text-ks-accent text-2xl"></i>
+                        <span class="font-bold text-xl text-white">KANGSUI TECH</span>
+                    </div>
+                    <p class="text-gray-500 text-sm max-w-sm mb-6">
+                        青田康岁网络科技有限公司致力于将物理世界数字化，通过先进的仿真与孪生技术，为企业创造可感知的价值。
+                    </p>
+                    <div class="flex gap-4">
+                        <a href="#" class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center text-gray-400 hover:bg-ks-accent hover:text-black transition-colors"><i class="fa-brands fa-weixin"></i></a>
+                        <a href="#" class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center text-gray-400 hover:bg-ks-accent hover:text-black transition-colors"><i class="fa-brands fa-linkedin-in"></i></a>
+                        <a href="#" class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center text-gray-400 hover:bg-ks-accent hover:text-black transition-colors"><i class="fa-solid fa-envelope"></i></a>
+                    </div>
+                </div>
+                
+                <div>
+                    <h4 class="text-white font-bold mb-4">快速链接</h4>
+                    <ul class="space-y-2 text-sm text-gray-500">
+                        <li><a href="#home" class="hover:text-ks-accent transition-colors">首页</a></li>
+                        <li><a href="#about" class="hover:text-ks-accent transition-colors">关于我们</a></li>
+                        <li><a href="#solutions" class="hover:text-ks-accent transition-colors">解决方案</a></li>
+                        <li><a href="#cases" class="hover:text-ks-accent transition-colors">案例展示</a></li>
+                        <li><a href="#contact" class="hover:text-ks-accent transition-colors">加入我们</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="text-white font-bold mb-4">服务支持</h4>
+                    <ul class="space-y-2 text-sm text-gray-500">
+                        <li><a href="#" class="hover:text-ks-accent transition-colors">隐私政策</a></li>
+                        <li><a href="#" class="hover:text-ks-accent transition-colors">服务条款</a></li>
+                        <li><a href="#" class="hover:text-ks-accent transition-colors">技术文档</a></li>
+                        <li><a href="#" class="hover:text-ks-accent transition-colors">网站地图</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-900 pt-8 flex flex-col md:flex-row justify-between items-center">
+                <p class="text-gray-600 text-xs">
+                    &copy; 2023 青田康岁网络科技有限公司 (KangSui Tech). All rights reserved.
+                </p>
+                <p class="text-gray-600 text-xs mt-2 md:mt-0">
+                    浙公网安备 xxxxxxxx号 (No ICP Required)
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript for Interactions -->
+    <script>
+        // 1. Sticky Navbar Effect
+        window.addEventListener('scroll', function() {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('shadow-lg');
+                navbar.style.background = 'rgba(11, 15, 25, 0.95)';
+            } else {
+                navbar.classList.remove('shadow-lg');
+                navbar.style.background = 'rgba(11, 15, 25, 0.8)';
+            }
+        });
+
+        // 2. Intersection Observer for Fade-in Animation
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.1
+        };
+
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    observer.unobserve(entry.target); // Only animate once
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.fade-in-up').forEach(el => {
+            observer.observe(el);
+        });
+
+        // 3. Smooth scrolling for anchor links is handled by CSS 'scroll-smooth'
+    </script>
+</body>
+</html>
